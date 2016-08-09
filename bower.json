@@ -1,0 +1,17 @@
+{
+  "name": "ttt-analytics-tracking",
+  "homepage": "https://github.com/nationalarchives/ttt-analytics-tracking",
+  "authors": [
+    "Gwyn Jones <gwyn.jones@nationalarchives.gsi.gov.uk>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

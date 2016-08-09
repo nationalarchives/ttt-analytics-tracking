@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+### Bower
+bower_components/
+
 ### Node template
 # Logs
 logs
