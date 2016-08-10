@@ -23,6 +23,24 @@ QUnit.test('Load time is recorded in object', function (assert) {
     }, 500);
 });
 
+
+QUnit.test('Scroll begin time is recorded in object', function (assert) {
+    var done = assert.async(2);
+    setTimeout(function () {
+        assert.equal(ttt_analytics.time_from_load_to_start_scroll, false, "The scroll time is initially false");
+        done();
+    }, 500);
+
+    // Simulate a scroll event
+
+    setTimeout(function () {
+        $(document).triggerHandler('scroll');
+        assert.notEqual(ttt_analytics.time_from_load_to_start_scroll, false, "The scroll time is no longer false after scroll event");
+        assert.ok(/^\d*$/.test(ttt_analytics.time_from_load_to_start_scroll), true, "The time is digits only");
+        done();
+    }, 500)
+});
+
 // Specific dcsMultiTrack events to be fired at specific points:
 
 // DONE - stub configurable proxy for WebTrends calling function
