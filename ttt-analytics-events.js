@@ -3,58 +3,86 @@
 var ttt_analytics = (function () {
 
     return {
-        load_event_called: false,
+
+        load_event_recorded: false,
         load_time: false,
-        time_from_load_to_start_scroll: false,
-        scrolled_to_widget_event_called: false,
-        time_user_sees_widget: false,
-        time_from_load_to_seeing_widget: false,
-        user_has_scrolled_to_footer: false,
-        ttt_widget_in_view: function () {
-            if (this.scrolled_to_widget_event_called === false) {
+
+        initial_scroll_event_recorded: false,
+        load_to_initial_scroll_time: false,
+
+        scroll_to_widget_event_recorded: false,
+        user_sees_widget_time: false,
+        load_to_seeing_widget_time: false,
+
+        scroll_to_footer_event_recorded: false,
+
+        loaded: function () {
+            this.load_event_recorded = true;
+            this.load_time = Date.now();
+            this.webTrendsProxy('load-event');
+        },
+
+        scrolled: function () {
+            if (this.initial_scroll_event_recorded === false) {
+                this.initial_scroll_event_recorded = true;
+                this.load_to_initial_scroll_time = Date.now() - this.load_time;
+                this.webTrendsProxy('initial-scroll-event');
+                return;
+            }
+
+            if (this.widget_visible()) {
+                this.load_to_seeing_widget_time = Date.now() - this.load_time;
+                this.webTrendsProxy('user-sees-widget');
+                return;
+            }
+            if (this.footer_reached()) {
+                this.webTrendsProxy('user-reached-footer');
+            }
+        },
+
+        widget_visible: function () {
+            if (this.scroll_to_widget_event_recorded === false) {
                 var scrolledFromTop = $(window).scrollTop(),
                     elementTop = $('#traces-through-time-collection').offset().top,
                     inView = scrolledFromTop - (elementTop - window.innerHeight);
                 if (inView > 0) {
-                    this.scrolled_to_widget_event_called = true;
-                    this.time_user_sees_widget = Date.now();
+                    this.user_sees_widget_time = Date.now();
+                    this.scroll_to_widget_event_recorded = true;
                     return true;
                 }
             }
             return false;
         },
+
         footer_reached: function () {
-            if (this.user_has_scrolled_to_footer == false) {
+            if (this.scroll_to_footer_event_recorded == false) {
                 var scrolledFromTop = $(window).scrollTop(),
                     elementTop = $('#footer-wrapper').offset().top,
                     inView = scrolledFromTop - (elementTop - window.innerHeight);
                 if (inView > 0) {
-                    this.user_has_scrolled_to_footer = true;
+                    this.scroll_to_footer_event_recorded = true;
                     return true;
                 }
             }
             return false;
         },
+
         webTrendsProxy: function (arg) {
             switch (arg) {
                 case 'load-event':
-                    // webTrendsCall for load event
-                    this.load_event_called = true;
-                    this.load_time = Date.now();
+                    // Insert webTrendsCall for load event
                     console.log('Load event has happened');
                     break;
-                case 'scroll-event':
-                    // webTrendsCall for scroll event
-                    this.time_from_load_to_start_scroll = Date.now() - this.load_time;
-                    console.log('Scroll event has happened');
+                case 'initial-scroll-event':
+                    // Insert webTrendsCall for scroll event
+                    console.log('Initial scroll event has happened');
                     break;
                 case 'user-sees-widget':
-                    // webTrendsCall for user seeing widget
-                    this.time_from_load_to_seeing_widget = Date.now() - this.time_user_sees_widget;
+                    // Insert webTrendsCall for user seeing widget
                     console.log('User sees widget event has happened');
                     break;
                 case 'user-reached-footer':
-                    // webTrendsCall for user reaching footer
+                    // Insert webTrendsCall for user reaching footer
                     console.log('User reaching footer event has happened');
                     break;
             }
@@ -63,18 +91,9 @@ var ttt_analytics = (function () {
 })();
 
 $(document).ready(function () {
-    ttt_analytics.webTrendsProxy('load-event');
-});
-
-$(document).one('scroll', function () {
-    ttt_analytics.webTrendsProxy('scroll-event');
+    ttt_analytics.loaded();
 });
 
 $(document).on('scroll', function () {
-    if (ttt_analytics.ttt_widget_in_view()) {
-        ttt_analytics.webTrendsProxy('user-sees-widget');
-    }
-    if (ttt_analytics.footer_reached()) {
-        ttt_analytics.webTrendsProxy('user-reached-footer');
-    }
+    ttt_analytics.scrolled();
 });
