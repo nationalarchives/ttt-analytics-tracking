@@ -1,8 +1,18 @@
 # JavaScript for the Traces Through Time custom analytics
 
-Provides the JavaScript for a ... 
+Provides the JavaScript that fires WebTrends events in response to specific events. These are: 
+
+* Upon page load
+* Scrolling:
+    * First scroll
+    * Upon reaching the TTT widget
+    * Upon reaching the footer
+
+Has a dependency upon jQuery
 
 ## Development dependencies
+
+The only development dependencies for this project is QUnit. Dependencies are managed via Bower. 
 
 ### Bower is used for dependency management
 
