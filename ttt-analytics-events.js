@@ -40,8 +40,8 @@ var ttt_analytics = (function () {
             }
         },
 
-        timeSinceLoad: function() {
-          return ((Date.now() - this.load_time) / 1000).toPrecision(2);
+        timeSinceLoad: function () {
+            return ((Date.now() - this.load_time) / 1000).toPrecision(2);
         },
 
         widget_visible: function () {
@@ -74,19 +74,19 @@ var ttt_analytics = (function () {
         webTrendsProxy: function (arg) {
             switch (arg) {
                 case 'load-event':
-                    // Insert webTrendsCall for load event
+                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/page-loaded/', 'WT.ti', 'Page scroll: Page loaded', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('Load event has happened');
                     break;
                 case 'initial-scroll-event':
-                    // Insert webTrendsCall for scroll event
+                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-scrolaling/', 'WT.ti', 'Page scroll: Start page scroll', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_initial_scroll_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('Initial scroll event has happened');
                     break;
                 case 'user-sees-widget':
-                    // Insert webTrendsCall for user seeing widget
+                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-ttt-widget /', 'WT.ti', 'Page scroll: Start TTT widget', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_seeing_widget_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('User sees widget event has happened');
                     break;
                 case 'user-reached-footer':
-                    // Insert webTrendsCall for user reaching footer
+                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/bottom-of-page/', 'WT.ti', 'Page scroll: Bottom of page', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', '(this is the time from page loaded to this event)', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('User reaching footer event has happened');
                     break;
             }
@@ -101,3 +101,6 @@ $(document).ready(function () {
 $(document).on('scroll', function () {
     ttt_analytics.scrolled();
 });
+
+
+
