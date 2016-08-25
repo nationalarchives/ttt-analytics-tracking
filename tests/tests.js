@@ -47,6 +47,7 @@ QUnit.test('Scrolling to the footer', function (assert) {
     $(window).scrollTop(9000);
     $(document).triggerHandler('scroll');
     assert.ok(ttt_analytics.scroll_to_footer_event_recorded == true, "The user having scrolled to the footer is recorded");
+    assert.ok(/^\d*$/.test(ttt_analytics.user_sees_footer_time), true, "The time is digits only");
 });
 
 QUnit.test('Times are recorded in seconds with 2 units of precision', function (assert) {

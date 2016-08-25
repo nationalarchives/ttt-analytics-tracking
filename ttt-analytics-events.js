@@ -15,6 +15,8 @@ var ttt_analytics = (function () {
         load_to_seeing_widget_time: false,
 
         scroll_to_footer_event_recorded: false,
+        user_sees_footer_time: false,
+        load_to_seeing_footer_time: false,
 
         loaded: function () {
             this.load_event_recorded = true;
@@ -36,6 +38,7 @@ var ttt_analytics = (function () {
                 return;
             }
             if (this.footer_reached()) {
+                this.load_to_seeing_footer_time = this.timeSinceLoad();
                 this.webTrendsProxy('user-reached-footer');
             }
         },
@@ -64,6 +67,7 @@ var ttt_analytics = (function () {
                     elementTop = $('#footer-wrapper').offset().top,
                     inView = scrolledFromTop - (elementTop - window.innerHeight);
                 if (inView > 0) {
+                    this.user_sees_footer_time = Date.now();
                     this.scroll_to_footer_event_recorded = true;
                     return true;
                 }
@@ -74,19 +78,19 @@ var ttt_analytics = (function () {
         webTrendsProxy: function (arg) {
             switch (arg) {
                 case 'load-event':
-                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/page-loaded/', 'WT.ti', 'Page scroll: Page loaded', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/page-loaded/', 'WT.ti', 'Page scroll: Page loaded', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('Load event has happened');
                     break;
                 case 'initial-scroll-event':
-                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-scrolaling/', 'WT.ti', 'Page scroll: Start page scroll', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_initial_scroll_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-scrolaling/', 'WT.ti', 'Page scroll: Start page scroll', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_initial_scroll_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('Initial scroll event has happened');
                     break;
                 case 'user-sees-widget':
-                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-ttt-widget /', 'WT.ti', 'Page scroll: Start TTT widget', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_seeing_widget_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-ttt-widget /', 'WT.ti', 'Page scroll: Start TTT widget', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_seeing_widget_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('User sees widget event has happened');
                     break;
                 case 'user-reached-footer':
-                    dcsMultiTrack('DCS.dcsuri', '/page-scroll/bottom-of-page/', 'WT.ti', 'Page scroll: Bottom of page', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', '(this is the time from page loaded to this event)', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/bottom-of-page/', 'WT.ti', 'Page scroll: Bottom of page', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', '(this is the time from page loaded to this event)', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('User reaching footer event has happened');
                     break;
             }
