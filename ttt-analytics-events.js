@@ -25,26 +25,31 @@ var ttt_analytics = (function () {
         },
 
         scrolled: function () {
-            if (this.initial_scroll_event_recorded === false) {
-                this.initial_scroll_event_recorded = true;
-                this.load_to_initial_scroll_time = this.timeSinceLoad();
+            if (this.is_initial_scroll()) {
                 this.webTrendsProxy('initial-scroll-event');
                 return;
             }
 
             if (this.widget_visible()) {
-                this.load_to_seeing_widget_time = this.timeSinceLoad();
                 this.webTrendsProxy('user-sees-widget');
                 return;
             }
-            if (this.footer_reached()) {
-                this.load_to_seeing_footer_time = this.timeSinceLoad();
+            if (this.footer_visible()) {
                 this.webTrendsProxy('user-reached-footer');
             }
         },
 
-        timeSinceLoad: function () {
+        time_since_load: function () {
             return ((Date.now() - this.load_time) / 1000).toPrecision(2);
+        },
+
+        is_initial_scroll: function () {
+            if (this.initial_scroll_event_recorded === false) {
+                this.initial_scroll_event_recorded = true;
+                this.load_to_initial_scroll_time = this.time_since_load();
+                return true;
+            }
+            return false;
         },
 
         widget_visible: function () {
@@ -54,6 +59,7 @@ var ttt_analytics = (function () {
                     inView = scrolledFromTop - (elementTop - window.innerHeight);
                 if (inView > 0) {
                     this.user_sees_widget_time = Date.now();
+                    this.load_to_seeing_widget_time = this.time_since_load();
                     this.scroll_to_widget_event_recorded = true;
                     return true;
                 }
@@ -61,13 +67,14 @@ var ttt_analytics = (function () {
             return false;
         },
 
-        footer_reached: function () {
+        footer_visible: function () {
             if (this.scroll_to_footer_event_recorded == false) {
                 var scrolledFromTop = $(window).scrollTop(),
                     elementTop = $('#footer-wrapper').offset().top,
                     inView = scrolledFromTop - (elementTop - window.innerHeight);
                 if (inView > 0) {
                     this.user_sees_footer_time = Date.now();
+                    this.load_to_seeing_footer_time = this.time_since_load();
                     this.scroll_to_footer_event_recorded = true;
                     return true;
                 }

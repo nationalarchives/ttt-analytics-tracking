@@ -30,7 +30,7 @@ QUnit.test('Scrolling to the TTT widget and related events', function (assert) {
 
 QUnit.test('Scroll begin time is recorded in object', function (assert) {
 
-    $(window).scrollTop($('#traces-through-time-collection').offset().top + 20);
+    $(window).scrollTop($('#traces-through-time-collection').offset().top);
     $(document).triggerHandler('scroll');
 
     assert.ok(ttt_analytics.scroll_to_widget_event_recorded == true, "The user having scrolled to the widget is recorded");
