@@ -25,19 +25,23 @@ var ttt_analytics = (function () {
         scrolled: function () {
             if (this.initial_scroll_event_recorded === false) {
                 this.initial_scroll_event_recorded = true;
-                this.load_to_initial_scroll_time = Date.now() - this.load_time;
+                this.load_to_initial_scroll_time = this.timeSinceLoad();
                 this.webTrendsProxy('initial-scroll-event');
                 return;
             }
 
             if (this.widget_visible()) {
-                this.load_to_seeing_widget_time = Date.now() - this.load_time;
+                this.load_to_seeing_widget_time = this.timeSinceLoad();
                 this.webTrendsProxy('user-sees-widget');
                 return;
             }
             if (this.footer_reached()) {
                 this.webTrendsProxy('user-reached-footer');
             }
+        },
+
+        timeSinceLoad: function() {
+          return ((Date.now() - this.load_time) / 1000).toPrecision(2);
         },
 
         widget_visible: function () {
