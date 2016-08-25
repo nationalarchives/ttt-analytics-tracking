@@ -89,7 +89,7 @@ var ttt_analytics = (function () {
                     console.log('Load event has happened');
                     break;
                 case 'initial-scroll-event':
-                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-scrolaling/', 'WT.ti', 'Page scroll: Start page scroll', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_initial_scroll_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/start-scrolling/', 'WT.ti', 'Page scroll: Start page scroll', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_initial_scroll_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('Initial scroll event has happened');
                     break;
                 case 'user-sees-widget':
@@ -97,7 +97,7 @@ var ttt_analytics = (function () {
                     console.log('User sees widget event has happened');
                     break;
                 case 'user-reached-footer':
-                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/bottom-of-page/', 'WT.ti', 'Page scroll: Bottom of page', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', '(this is the time from page loaded to this event)', 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
+                    // dcsMultiTrack('DCS.dcsuri', '/page-scroll/bottom-of-page/', 'WT.ti', 'Page scroll: Bottom of page', 'WT.cg_n', 'Page scrolling', 'WT.dl', '0', 'WT.dcsext.time', this.load_to_seeing_footer_time, 'DCSext.docref', ' ', 'DCSext.prodpgtype', ' ', 'WT.pn_sku', ' ', 'WT.pn_gr', ' ', 'WT.pn_fa', ' ', 'WT.tx_e', ' ', 'WT.si_n', ' ', 'WT.si_p', ' ');
                     console.log('User reaching footer event has happened');
                     break;
             }
